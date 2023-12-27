@@ -1,16 +1,100 @@
 {
-  "pluginAlias": "EnvyHVAC",
+  "pluginAlias": "EnvyAlarm",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "alarm_address": {
+        "title": "Alarm Address",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "paradox; ip = 192.168.253.219; port = 10001"
+      },
+      "partition_table": {
+        "title": "Alarm Partition",
+        "type": "array",
+        "items": {
+          "title": "Partition",
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Partition Name",
+              "type": "string",
+              "required": true
+            },
+            "number": {
+              "title": "Partition Number",
+              "type": "string",
+              "required": true
+            }
+          }
+        }
       }
     }
-  }
+  },
+  "layout": [
+    "alarm_address",
+    {
+      "type": "section",
+      "items": [
+        {
+          "key": "partition_table",
+          "type": "array",
+          "notitle": true,
+          "items": [
+            {
+              "displayFlex": true,
+              "flex-direction": "row",
+              "items": [
+                {
+                  "title": "HVAC Thermostat"
+                },
+                {
+                  "displayFlex": true,
+                  "flex-direction": "column",
+                  "items": [
+                    {
+                      "key": "thermostat_table[].name",
+                      "flex": "1 1 40%"
+                    },
+                    {
+                      "key": "thermostat_table[].address",
+                      "flex": "1 1 60%"
+                    }
+                  ]
+                },
+                {
+                  "key": "thermostat_table[].zone_table",
+                  "type": "array",
+                  "notitle": true,
+                  "items": [
+                    {
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          
+                          "key": "thermostat_table[].zone_table[].name",
+                          "flex": "1 1 40%"
+                        },
+                        {
+                          "key": "thermostat_table[].zone_table[].device_type",
+                          "flex": "1 1 20%"
+                        },
+                        {
+                          "key": "thermostat_table[].zone_table[].address",
+                          "flex": "1 1 40%"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
